@@ -1,0 +1,4 @@
+﻿  HTTP_Server.cpp
+C:\Users\aikha\Downloads\HTTP_Server\HTTP_Server\HTTP_Server.cpp(11,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\sdkddkver.h(217): message : see previous definition of '_WIN32_WINNT'
+  HTTP_Server.vcxproj -> C:\Users\aikha\Downloads\HTTP_Server\Debug\HTTP_Server.exe
