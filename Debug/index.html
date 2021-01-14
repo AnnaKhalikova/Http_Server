@@ -1,17 +1,75 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
- <head>
-  <meta charset="utf-8">
-  <title>Тег FORM, атрибут method</title>
- </head>
- <body>  
- <form method="GET">
-  <p><input type="text" name="str"></p>
-  <p><input type="submit" value="Отправить" ></p>
-  <!-- <form method="get">
-    <input type="hidden" name="test" value="123">
-    <input type="submit" value="Отправить">
-    </form> -->
- </form>
- </body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>tag Form, attribute Method</title>
+    <link href="https://fonts.googleapis.com/css?family=Sofia" rel="stylesheet" />
+    <style type="text/css">
+    body {
+  background-image: url("assets/background-foto.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: "Sofia";
+  font-size: 20px;
+  color: BurlyWood;
+}
+
+section {
+  padding: 15px;
+  max-width: 600px;
+}
+
+h3 {
+  text-align: center;
+}
+
+h1 {
+  text-shadow: 2px 2px DarkSlateGray;
+  padding: 15px;
+}
+
+form {
+  margin: 0 auto;
+  width: 60%;
+  padding-top: 5px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 7px 10px;
+  margin-bottom: 5px;
+  display: inline-block;
+  border: 1px dotted LightSeaGreen;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  width: 100%;
+  background: DarkSlateGray;
+  color: BurlyWood;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+</style>   
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to the Dev Incubator</h1>      
+    </header>
+
+    <section id="contact">
+      <h3>Fill in the form below to contact to the Dev Incubator</h3>
+      <form id="contactForm">                
+        <label for="message">Text:</label><br />
+        <textarea id="message" name="message" placeholder="Some text..." ></textarea>
+        <br /><br />
+        <input type="submit" value="Submit" />
+      </form>
+    </section>
+  </body>
 </html>
