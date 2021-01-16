@@ -22,7 +22,11 @@ using namespace std;
 using std::cerr;
 
 int calculatePercent(char buffer[]);
-
+//Parse functions
+void parseRequest(char request[], char text[]);
+unsigned int charToInt(char chr);
+char hexToDec(char* hex, int size);
+int pow_(int num, int exp);
 
 int main()
 {
@@ -105,6 +109,7 @@ int main()
 
     const int max_client_buffer_size = 1024;
     char buf[max_client_buffer_size];
+    char text[max_client_buffer_size];
     int client_socket = INVALID_SOCKET;
 
     for (;;) {
@@ -144,21 +149,16 @@ int main()
                 indexPage += s1;
   
             in.close();
-
+            
             buf[result] = '\0';
-
+            
              /*Данные успешно получены
              формируем тело ответа (HTML)*/
-             response_body << indexPage << "\n" << calculatePercent(buf);
+            parseRequest(buf, text);
+             response_body << indexPage << "<h2>Percent of plagiarism:   " <<  calculatePercent(text) << " % </h2>";
              //TEMP COMMAND FOR TEST
              //std::cout << indexPage;
-            
-           /* response_body << "<title>Test C++ HTTP Server</title>\n"
-                << "<h1>Test page</h1>\n"
-                << "<input>This is body of the test page...</p>\n"
-                << "<h2>Calculate percents:</h2>\n"
-                << "<pre>" << calculatePercent(buf) << "%</pre>\n"
-                << "<em><small>Test C++ Http Server</small></em>\n";*/
+           
 
              /*Формируем весь ответ вместе с заголовками*/
             response << "HTTP/1.1 200 OK\r\n"
@@ -195,4 +195,87 @@ int calculatePercent(char buffer[]) {
         length++;
     }
     return length;
+}
+void parseRequest(char request[], char text[]) {
+    int startIndex = 0, endIndex = 0, i = 0, j, k = 0;
+
+    while (request[i] != '=') {
+        startIndex = i;
+        endIndex = i;
+        i++;
+    }
+    startIndex = ++i;
+    endIndex = i;
+    while (request[i] != ' ') {
+        endIndex = i;
+        i++;
+    }
+
+    for (j = 0, k = startIndex; k <= endIndex; k++) {
+
+        if (request[k] == '+') {
+            text[j] = ' ';
+        }
+        else if (request[k] == '%') {
+            int tempIndex = ++k, length = 0;
+            char* tempHexNumber = new char[length];
+            while ((request[tempIndex] >= '0' and request[tempIndex] <= '9')
+                or (request[tempIndex] >= 'A' and request[tempIndex] <= 'F')) {
+                tempHexNumber[length] = request[tempIndex];
+                length++;
+                tempIndex++;
+            }
+            char decNumber = hexToDec(tempHexNumber, length);
+            text[j] = (char)decNumber;
+            k += length;
+        }
+        else {
+            text[j] = request[k];
+        }
+        j++;
+
+    }
+    text[j] = '\0';
+}
+unsigned int charToInt(char chr)
+{
+    if (chr >= '0' && chr <= '9')
+        return chr - '0';
+    else if (chr >= 'A' && chr <= 'F')
+        return chr - 'A' + 10;
+    else if (chr >= 'a' && chr <= 'f')
+        return chr - 'a' + 10;
+    return -1;
+}
+char hexToDec(char* hex, int size)
+{
+    // Изначальное десятичное значение
+    char dec = 0;
+    // Непосредственно преобразование шестнадцатеричного числа
+    // в десятичное
+    for (int j = 0, i = size - 1; j < size; ++j, --i) {
+        dec += charToInt(hex[j]) * pow_(16, i);
+    }
+    // Возвращаем десятичное число
+    return dec;
+}
+int pow_(int num, int exp)
+{
+    // Если показатель степени является нулем
+    if (exp == 0) {
+        // Любое число в нулевой степени является единицей
+        return 1;
+    }
+    // Если показатель степени положителен
+    if (exp > 0) {
+        int result = 1;
+        // Умножаем число само на себя exp раз
+        for (int i = 0; i < exp; ++i) {
+            result *= num;
+        }
+        // Возвращаем результат
+        return result;
+    }
+    // Нам не нужно считать отрицательные степени
+    return -1;
 }
