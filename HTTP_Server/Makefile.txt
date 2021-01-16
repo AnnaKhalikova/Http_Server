@@ -1,0 +1,2 @@
+all:
+	g++ HTTP_Server.cpp  -o server
